@@ -29,7 +29,7 @@ class Window:
         glEnable(GL_BLEND)        # Enable blending for transparency
 
         self.scene = {
-            "platform": Object_Loader("data/platform.obj", 0, -0.45, 0.2, 0.1),
+            "platform": Object_Loader("data/platform.obj", 0, 0, 0.2, 0.1),
             "rocket": Object_Loader("data/rocket.obj", 0, -0.3, 0, 0.1),
         }
 
@@ -44,13 +44,20 @@ class Window:
     def _on_key_input(self, _window, key, _scancode, action, _mode) -> None:
         if key == glfw.KEY_ESCAPE and action == glfw.PRESS:
             glfw.set_window_should_close(self._window, True)
+            
+        left_right = {glfw.KEY_LEFT: -0.03, glfw.KEY_RIGHT: 0.03}
+        if key in left_right and action != glfw.RELEASE:
+            self.scene["rocket"].rotation(left_right[key],'x')
+            return
 
     def _draw_object(self):
         # glUseProgram(self.scene["platform"].shader)
-        self.scene["platform"].draw()
+        # self.scene["platform"].drawan()
+        self.scene["rocket"].drew()
+        # self.scene["platform"].drew()
 
         # glUseProgram(self.scene["rocket"].shader)
-        self.scene["rocket"].draw()
+        # self.scene["rocket"].draw()
 
     def main_loop(self) -> None:
         while not glfw.window_should_close(self._window):
